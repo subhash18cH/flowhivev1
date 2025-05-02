@@ -1,5 +1,5 @@
 const express=require("express");
-const { addUserProfile, getUserProfile, getAllDevelopers, getAllMarketers, deleteProfile, updateProfile, getProfileById } = require("../controllers/profileCOntroller");
+const { addUserProfile, getUserProfile, getAllDevelopers, getAllMarketers, deleteProfile, updateProfile, getProfileById } = require("../controllers/profileController");
 const { validateToken } = require("../middlewares/validateToken");
 
 const router=express.Router();
