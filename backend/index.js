@@ -1,6 +1,7 @@
 const express=require("express");
 const app=express();
 const dotenv=require("dotenv").config();
+const userRoutes=require("./routes/userRoutes");
 
 const dbConnection = require("./db/db");
 const cors=require("cors")
@@ -12,6 +13,8 @@ app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true,
 }));
+
+app.use("/auth",userRoutes);
 
 app.get("/",(req,res)=>{
   res.send("Welcome to floedev app")
