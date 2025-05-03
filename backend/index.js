@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 app.use(cors({
-  origin: 'https://flowhive.netlify.app/',
+  origin: 'https://flowhive.netlify.app',
   credentials: true,
 }));
 
