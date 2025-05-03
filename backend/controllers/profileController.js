@@ -50,7 +50,10 @@ const getAllProfiles=async(req,res)=>{
 //get all developers
 const getAllDevelopers=async(req,res)=>{
   try {
-    const devProfiles= await Profile.find({profession:"Developer"});
+    const loggedInUserId = req.user.userId;
+    const devProfiles= await Profile.find({profession:"Developer",
+      userId: { $ne: loggedInUserId }
+    });
     res.status(200).json(devProfiles);
   } catch (error) {
     res.status(500).json({message:"Error occurs"});
@@ -60,7 +63,10 @@ const getAllDevelopers=async(req,res)=>{
 //get all marketers
 const getAllMarketers=async(req,res)=>{
   try {
-    const markProfiles= await Profile.find({profession:"Marketer"});
+    const loggedInUserId = req.user.userId;
+    const markProfiles= await Profile.find({profession:"Marketer",
+      userId: { $ne: loggedInUserId }
+    });
     res.status(200).json(markProfiles);
   } catch (error) {
     res.status(500).json({message:"Error occurs"});
