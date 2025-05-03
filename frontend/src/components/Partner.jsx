@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import MySideBar from "./MySideBar";
 import { motion, useAnimation } from "framer-motion";
+import ProfileCard from "./ProfileCard";
 import api from "./Api";
 import toast from "react-hot-toast";
-import MySideBar from "./MySideBar";
-import ProfileCard from "./ProfileCard";
+import { InfiniteMovingCards } from "./ui/infinite-moving-cards";
 
 const Partner = () => {
   const [clickedCategory, setClickedCategory] = useState(null);
@@ -63,8 +64,8 @@ const Partner = () => {
       <div>
         <MySideBar />
       </div>
-      <div className="w-full">
-        <div className="flex flex-col items-center mt-36">
+      <div className="w-full pb-2">
+        <div className="flex flex-col items-center mt-10">
           <div className="mb-16 flex flex-col gap-2">
             <h1 className="text-4xl font-bold">FlowHive Matcher</h1>
             <span className="text-gray-600">
@@ -102,72 +103,28 @@ const Partner = () => {
           )}
 
           {clickedCategory === "Developer" && (
-            <motion.div
-              style={{ cursor: "default" }}
-              className="flex gap-4 mb-8 sm:gap-6 lg:gap-8 cursor-grab active:cursor-grabbing"
-              drag="x"
-              dragConstraints={{ left: 0, right: -300 }}
-              onDragStart={() => {
-                setIsDragging(true);
-                controls.stop();
-              }}
-              onDragEnd={() => setIsDragging(false)}
-              animate={controls}
-            >
-              <div className="flex shrink-0 gap-4 sm:gap-6">
-                {developers.length > 0 ? (
-                  developers.map((dev, index) => (
-                    <ProfileCard
-                      key={index}
-                      userId={dev.userId}
-                      name={dev.fullName}
-                      role={dev.profession}
-                      about={dev.about}
-                      vision={dev.vision}
-                      spec={dev.skills}
-                      avail={dev.availability}
-                    />
-                  ))
-                ) : (
-                  <p className="text-gray-500">No developers found.</p>
-                )}
-              </div>
-            </motion.div>
+            <div className="w-full">
+              <InfiniteMovingCards
+                items={[...developers, ...developers]}
+                direction="left"
+                speed="fast"
+              />
+            </div>
           )}
 
           {clickedCategory === "Marketer" && (
-            <motion.div
-              style={{ cursor: "default" }}
-              className="flex gap-4 mb-8 sm:gap-6 lg:gap-8 cursor-grab active:cursor-grabbing"
-              drag="x"
-              dragConstraints={{ left: -300, right: 0 }}
-              onDragStart={() => {
-                setIsDragging(true);
-                controls.stop();
-              }}
-              onDragEnd={() => setIsDragging(false)}
-              animate={controls}
-            >
-              <div className="flex shrink-0 gap-4 sm:gap-6">
-                {marketers.length > 0 ? (
-                  marketers.map((dev, index) => (
-                    <ProfileCard
-                      key={index}
-                      userId={dev.userId}
-                      name={dev.fullName}
-                      role={dev.profession}
-                      about={dev.about}
-                      vision={dev.vision}
-                      spec={dev.skills}
-                      avail={dev.availability}
-                    />
-                  ))
-                ) : (
-                  <p className="text-gray-500">No Marketers found.</p>
-                )}
-              </div>
-            </motion.div>
+            <div className="w-full">
+              <InfiniteMovingCards
+                items={[...marketers, ...marketers]}
+                direction="left"
+                speed="fast"
+              />
+            </div>
           )}
+
+
+
+
         </div>
       </div>
     </>

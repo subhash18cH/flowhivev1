@@ -29,7 +29,7 @@ const MiniProfile = ({ image, name, profession, joined,profile }) => {
         </div>
 
         <div className=' ml-3 '>
-          <button className='border rounded-full px-3 py-1 mt-3 text-sm font-semibold'>View</button>
+          <button  className='border rounded-full px-3 py-1 mt-3 text-sm font-semibold'>View</button>
         </div>
       </div>
 

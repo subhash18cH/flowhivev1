@@ -6,10 +6,16 @@ import toast from 'react-hot-toast';
 import logo from "/src/assets/img.png"
 import { Mail } from 'lucide-react';
 import { Textarea } from './ui/textarea';
+import { LuClock } from "react-icons/lu";
+import { Calendar } from 'lucide-react';
 const ClickedProfileInfo = () => {
-  const { profile } = useParams();
-  console.log("pp", profile)
 
+
+  const availability = {
+    "Full-Time": <Calendar className="h-4 w-4" />,
+    "Part-Time": <LuClock className="h-4 w-4" />
+  };
+  const { profile } = useParams();
   const [loading, setLoading] = useState(false)
   const [initialData, setInitialData] = useState(null);
   const [userData, setUserData] = useState({
@@ -22,18 +28,17 @@ const ClickedProfileInfo = () => {
   });
 
   const availableSkills = [
-    "brand", "docker", "Java", "Tailwind CSS", "MongoDB",
-    "AWS", "Git",
+    'frontend', 'growth', 'seo', 'full-stack', 'backend', 'socila-media',
+    'AWS', 'Git', 'ui/ux', 'Docker', 'brand', 'devops',
   ];
 
 
   const getProfile = async () => {
     setLoading(true)
     try {
-      const response = await api.get(`/user/profile/by-id`,
-        { params: { profileId: profile } });
+      const response = await api.get(`/user/profile/by-id/${profile}`,
+      );
       if (response.status === 200) {
-        console.log("user profile", response.data)
         setUserData(response.data);
         setInitialData(response.data)
       }
@@ -43,8 +48,8 @@ const ClickedProfileInfo = () => {
       setLoading(false)
     }
   }
-
-
+  const handleSendMessage = () => {
+  }
   useEffect(() => {
     getProfile()
   }, [])
@@ -54,9 +59,9 @@ const ClickedProfileInfo = () => {
       <div>
         <MySideBar />
       </div>
-      <div className='w-[70%]'>
+      <div className='w-[70%] h-[590px]'>
 
-        <div className=' flex flex-col border-2 border-yellow-400 py-8 px-4 rounded-2xl hover:shadow-md gap-1 mt-16 ml-12  h-[460px]'>
+        <div className=' flex flex-col border-2 border-yellow-400 py-8 px-4 rounded-2xl hover:shadow-md gap-1 mt-16 ml-12  h-[510px]'>
 
           <div className='flex'>
             <div>
@@ -67,10 +72,10 @@ const ClickedProfileInfo = () => {
               />
             </div>
 
-            <div className='flex flex-col gap-1 w-[70%]'>
+            <div className='flex flex-col gap-1 w-[90%]'>
               <div className='flex gap-2 items-center'>
                 <h1 className='font-bold text-3xl text-blue-600'>{userData.fullName} </h1>
-                <span><Mail size={17} className='text-gray-500 mt-3 ' /></span>
+                <a ><Mail size={19} className='text-gray-700 mt-2 ' /></a>
               </div>
               <div className='flex justify-start gap-2'>
                 <span className='border px-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold py-1'>{userData.profession}</span>
@@ -99,19 +104,29 @@ const ClickedProfileInfo = () => {
 
             <div className='mt-3 flex flex-col'>
               <span className='text-gray-500'>Availability</span>
-              <div className='flex gap-2'>
-                <span>s</span>
+              <div className='flex gap-2 items-center mt-1'>
+                <span className="text-gray-600">{availability[userData.availability]}</span>
                 <span>{userData.availability}</span>
               </div>
             </div>
 
-            <div className='mt-3 '>
+            <div className='mt-6 '>
               <Textarea
-                
-                className="rounded-xl h-40 resize-none" placeholder=" Add your notes here...
-              
+                className="rounded-xl h-40 resize-none " placeholder=" Write your message here...
               " />
+            </div>
 
+            <div className='flex mt-3 justify-end'>
+              <button
+                onClick={handleSendMessage}
+                // disabled={!isDataChanged}
+                className={`p-2 border rounded-xl
+                   bg-yellow-400 hover:bg-yellow-300
+                   cursor-not-allowed
+                 `}
+              >
+                Send message
+              </button>
             </div>
           </div>
 

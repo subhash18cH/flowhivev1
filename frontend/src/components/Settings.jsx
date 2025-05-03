@@ -1,9 +1,8 @@
 import React from 'react'
 import MySideBar from './MySideBar'
 import { useNavigate } from 'react-router-dom'
-
-import toast from 'react-hot-toast';
 import api from './Api';
+import toast from 'react-hot-toast';
 
 const Settings = () => {
 

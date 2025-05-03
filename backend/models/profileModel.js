@@ -29,6 +29,7 @@ const profileSchema=mongoose.Schema({
     type:[String],
     required:[true,"skills are required"]
   },
-})
+},
+{ timestamps: true })
 
 module.exports=mongoose.model("profile",profileSchema);

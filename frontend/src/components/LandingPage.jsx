@@ -3,7 +3,6 @@ import React from 'react';
 import { LuHandshake } from "react-icons/lu";
 import { GoRocket } from "react-icons/go";
 import { IoCreateOutline } from "react-icons/io5";
-
 import { motion } from "framer-motion";
 import {
   Accordion,
@@ -15,8 +14,75 @@ import { useNavigate } from 'react-router-dom';
 import FeatureCard from './FeatureCard';
 import ProfileCard from './ProfileCard';
 import Navbar from './Navbar';
+import { InfiniteMovingCards } from './ui/infinite-moving-cards';
 
 const LandingPage = () => {
+
+  const profiles = [
+    {
+      userId: 1,
+      fullName: "Danial",
+      profession: "Developer",
+      about: "I'm a web developer with 15+ years of experience in building platforms. I specialize in automations and API integrations",
+      vision: "Building innovative, automation-driven solutions that simplify workflows, boost productivity, and create scalable growth",
+      skills: ["mobile", "backend", "api's"],
+      availability: "Part-Time",
+    },
+    {
+      userId: 2,
+      fullName: "Amit",
+      profession: "Marketer",
+      about: "I am the Founder and we help businesses manage customer interactions effectively through voice AI agents.",
+      vision: "I have already built few SaaS and my vision is to create something which is for future.",
+      skills: ["growth", "seo"],
+      availability: "Full-Time",
+    },
+    {
+      userId: 3,
+      fullName: "Riya",
+      profession: "Developer",
+      about: "I am a full stack developer with 2+ years experience with Next.js. I find passion in providing value through SaaS.",
+      vision: "I build impactful solutions with an innovative edge, love collaborating with marketers, and thrive on scaling big ideas.",
+      skills: ["ui/ux", "backend", "devops"],
+      availability: "Part-Time",
+    },
+    {
+      userId: 4,
+      fullName: "Manoj",
+      profession: "Marketer",
+      about: "I'm a marketer with more than 10 years of experience in Influencer, meme, creative and digital marketing.",
+      vision: "I want to leverage data-driven strategies and innovative marketing approaches for exceptional growth.",
+      skills: ["growth", "brand", "social-media"],
+      availability: "Full-Time",
+    },
+    {
+      userId: 5,
+      fullName: "Subhash",
+      profession: "Developer",
+      about: "Experienced Full Stack developer. I have developed several websites, mobile application using React and SpringBoot",
+      vision: "Connect with 25 founders to help them build them mvps.Connect with marketers to sell my ready to go to market products.",
+      skills: ["frontend", "backend", "full-stack"],
+      availability: "Full-Time",
+    },
+    {
+      userId: 6,
+      fullName: "Adam",
+      profession: "Marketer",
+      about: "Experienced Community Manager with 4+ years of expertise in building and engaging large online gaming communities.",
+      vision: "My specialty lies in facilitating environments to increase retention, alleviate support cost and much more!",
+      skills: ["growth", "sales", "research"],
+      availability: "Part-Time",
+    },
+    {
+      userId: 1,
+      fullName: "Danial",
+      profession: "Developer",
+      about: "I'm a web developer with 15+ years of experience in building platforms. I specialize in automations and API integrations",
+      vision: "Building innovative, automation-driven solutions that simplify workflows, boost productivity, and create scalable growth",
+      skills: ["mobile", "backend", "api's"],
+      availability: "Full-Time",
+    },
+  ]
 
   const matchedPairs = [
     {
@@ -45,9 +111,6 @@ const LandingPage = () => {
     }
   ];
   const navigate = useNavigate()
-  const spec = ["Backend", "Frontend", "API's"];
-
-
   return (
     <>
       <Navbar />
@@ -93,49 +156,18 @@ const LandingPage = () => {
         </section>
 
         {/* Profile Cards */}
-        <section id='partners' className='mb-20'>
+        <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
           <div className='flex flex-col justify-center items-center mb-7'>
             <h1 className='text-2xl sm:text-3xl lg:text-4xl font-bold text-center px-4'>
               Your Perfect Match is Here
             </h1>
           </div>
-          <div className="relative w-full overflow-hidden py-4">
-            <motion.div
-              className="flex gap-4 sm:gap-6 lg:gap-8"
-              animate={{
-                x: ["5%", "-100%"]
-              }}
-              transition={{
-                x: {
-                  repeat: Infinity,
-                  duration: 20,
-                  ease: "linear",
-                },
-              }}
-            >
-              <div className='flex shrink-0 gap-4 sm:gap-6'>
-                <ProfileCard
-                  name="Danial"
-                  role="Developer"
-                  about="I'm a web developer with 15+ years of experience in building platforms. I specialize in automations and API integrations"
-                  vision="Building innovative, automation-driven solutions that simplify workflows, boost productivity, and create scalable growth"
-                  spec={["mobile", "backend", "api's"]}
-                  avail="Part-Time"
-                />
-                <ProfileCard name="Amit" role="Marketer" about="I am the Founder and we help businesses manage customer interactions effectively through voice AI agents. " vision="I have already built few SaaS and my vision is to create something which is for future." spec={["growth", "seo"]} avail="Full-Time"
-                />
-
-                <ProfileCard name="Riya" role="Developer" about="I am a full stack developer with 2+ years experience with Next.js. I find passion in providing value through SaaS." vision="I build impactful solutions with an innovative edge, love collaborating with marketers, and thrive on scaling big ideas." spec={["ui/ux", "backend", "devops"]} avail="Part-Time" />
-
-                <ProfileCard name="Manoj" role="Marketer" about="I'm a marketer with more than 10 years of experience in Influencer, meme, creative and digital marketing." vision="I want to leverage data-driven strategies and innovative marketing approaches for exceptional growth." spec={["growth", "brand", "social-media"]} avail="Full-Time" />
-
-                <ProfileCard name="Subhash" role="Developer" about="Experienced Full Stack developer. I have developed several websites, mobile application using React and SpringBoot" vision="Connect with 25 founders to help them build them mvps.Connect with marketers to sell my ready to go to market products." spec={["frontend", "backend", "full-stack"]} avail="Full-Time" />
-
-                <ProfileCard name="Adam" role="Marketer" about="Experienced Community Manager with 4+ years of expertise in building and engaging large online gaming communities." vision="My specialty lies in facilitating environments to increase retention, alleviate support cost and much more! " spec={["growth", "sales", "research"]} avail="Part-Time" />
-              </div>
-            </motion.div>
-          </div>
-        </section>
+          <InfiniteMovingCards
+            items={profiles}
+            direction="left"
+            speed="normal"
+          />
+        </div>
 
         {/* FAQ section */}
         <section id='FAQ' className='mb-20'>

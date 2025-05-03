@@ -1,6 +1,6 @@
 const Swipe=require("../models/swipeModel");
 const Match =require("../models/matchModel");
-
+const Profile=require("../models/profileModel")
 //swipe a profile
 const swipeProfile=async(req,res)=>{
   try {
@@ -43,23 +43,48 @@ const swipeProfile=async(req,res)=>{
 }
 
 //all sent requests
-const sentRequests=async(req,res)=>{
+const sentRequests = async (req, res) => {
   try {
-    const swipes=await Swipe.find({fromUser:req.user.userId});
-    res.status(200).json(swipes);
+    const swipes = await Swipe.find({ fromUser: req.user.userId });
+
+    const enrichedSwipes = await Promise.all(
+      swipes.map(async (swipe) => {
+        const profile = await Profile.findOne({ userId: swipe.toUser });
+        return {
+          ...swipe.toObject(),
+          profile,
+        };
+      })
+    );
+
+    res.status(200).json(enrichedSwipes);
   } catch (error) {
-    res.status(400);
+    console.error(error);
+    res.status(400).json({ error: "Failed to fetch sent requests" });
   }
-}
+};
+
 
 //all incoming requests
-const receivedRequests=async(req,res)=>{
+const receivedRequests = async (req, res) => {
   try {
-    const swipes=await Swipe.find({toUser:req.user.userId});
-    res.status(200).json(swipes);
+    const swipes = await Swipe.find({ toUser: req.user.userId });
+
+    const enrichedSwipes = await Promise.all(
+      swipes.map(async (swipe) => {
+        const profile = await Profile.findOne({ userId: swipe.fromUser });
+        return {
+          ...swipe.toObject(),
+          fromUserProfile: profile,
+        };
+      })
+    );
+
+    res.status(200).json(enrichedSwipes);
   } catch (error) {
-    res.status(400);
+    console.error(error);
+    res.status(400).json({ error: "Failed to fetch received requests" });
   }
-}
+};
 
 module.exports={swipeProfile,sentRequests,receivedRequests};

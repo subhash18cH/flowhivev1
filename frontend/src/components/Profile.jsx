@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import MySideBar from './MySideBar'
+import React, { useEffect, useState } from 'react';
+import MySideBar from './MySideBar';
 import { Textarea } from './ui/textarea';
 import api from './Api';
 import toast from 'react-hot-toast';
 
 const Profile = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [initialData, setInitialData] = useState(null);
   const [userData, setUserData] = useState({
-    fullName: "",
-    profession: "",
-    about: "",
-    vision: "",
+    fullName: '',
+    profession: '',
+    about: '',
+    vision: '',
     skills: [],
-    availability: ""
+    availability: ''
   });
-  
+
   const availableSkills = [
-    "brand", "docker", "Java", "Tailwind CSS", "MongoDB",
-    "AWS", "Git",
+    'frontend', 'growth', 'seo', 'full-stack', 'backend', 'socila-media',
+    'AWS', 'Git', 'ui/ux', 'Docker', 'brand', 'devops'
   ];
+
   const toggleSkill = (skill) => {
     setUserData((prev) => ({
       ...prev,
@@ -28,97 +29,99 @@ const Profile = () => {
         : [...prev.skills, skill],
     }));
   };
+
   const getProfile = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await api.get("/user/profile");
       if (response.status === 200) {
-        console.log("user profile", response.data)
         setUserData(response.data);
-        setInitialData(response.data)
+        setInitialData(response.data);
       }
     } catch (error) {
-      toast.error(error);
+      toast.error("Failed to fetch profile");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleChanges = async () => {
     try {
       const response = await api.put("/user/profile", userData);
       if (response.status === 200) {
-        toast.success("profile updated successfully!")
+        toast.success("Profile updated successfully!");
         setUserData(response.data);
-        setInitialData(response.data)
+        setInitialData(response.data);
       }
     } catch (error) {
-      toast.error(error);
+      toast.error("Failed to update profile");
     }
-  }
+  };
+
   useEffect(() => {
-    getProfile()
-  }, [])
+    getProfile();
+  }, []);
 
   const isDataChanged = JSON.stringify(userData) !== JSON.stringify(initialData);
 
-
   return (
-    <>
-      <div>
-        <MySideBar />
-      </div>
+    <div className="flex flex-col lg:flex-row ">
+      <MySideBar />
 
-      <div className=' w-[70%]  pb-4'>
-        <div className='mt-16 ml-6 border-2 px-5 py-4 rounded-xl pb-6'>
+      <div className="flex-1 px-4 sm:px-6 md:px-10 py-6 mt-16">
+        <div className="max-w-4xl mx-auto border rounded-xl p-6 sm:p-8 shadow-md bg-white">
+          <h1 className="text-2xl sm:text-3xl font-semibold mb-6">Edit Your Profile</h1>
 
-          <div>
-            <h1 className='text-2xl font-semibold'>Edit Your Profile</h1>
-            <div className='flex flex-col mt-6 gap-2'>
-              <label htmlFor="" className='ml-1'>Name</label>
-              <input
-                type="text"
-                value={userData.fullName}
-                onChange={(e) => setUserData({ ...userData, fullName: e.target.value })}
-                placeholder='Name'
-                className='border px-3 py-2 rounded-xl' />
+          {/* Name Field */}
+          <div className="mb-6">
+            <label className="block mb-2 font-medium">Name</label>
+            <input
+              type="text"
+              value={userData.fullName}
+              onChange={(e) => setUserData({ ...userData, fullName: e.target.value })}
+              placeholder="Name"
+              className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            />
+          </div>
+
+          {/* Profession */}
+          <div className="mb-6">
+            <h2 className="mb-2 font-medium">Type</h2>
+            <div className="flex gap-4 flex-wrap">
+              {['Developer', 'Marketer'].map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setUserData({ ...userData, profession: type })}
+                  className={`px-4 py-2 border rounded-2xl ${userData.profession === type ? 'bg-yellow-400' : 'bg-gray-100 hover:bg-gray-200'}`}
+                >
+                  {type}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className='mt-6'>
-            <h1>Type</h1>
-            <div className='flex flex-col justify-center items-center'>
-              <div className='flex gap-6 '>
-                <button onClick={() => setUserData({ ...userData, profession: "Developer" })} className={` py-2 border px-4 rounded-2xl ${userData.profession === "Developer"
-                  ? "bg-yellow-400 "
-                  : ""
-                  }`}>Developer</button>
-                <button onClick={() => setUserData({ ...userData, profession: "Marketer" })} className={` py-2  border px-4 rounded-2xl ${userData.profession === "Marketer"
-                  ? "bg-yellow-400 "
-                  : ""
-                  }`}>Marketer</button>
-              </div>
-            </div>
+          {/* About */}
+          <div className="mb-6">
+            <label className="block mb-2 font-medium">Description</label>
+            <Textarea
+              value={userData.about}
+              onChange={(e) => setUserData({ ...userData, about: e.target.value })}
+              className="rounded-xl h-20 w-full"
+              placeholder="E.g. I'm a [role] with [X] years of experience..."
+            />
           </div>
 
-          <div className='mt-6 flex flex-col gap-2'>
-            <h1>Description</h1>
-            <div className='flex gap-6'>
-              <Textarea
-                value={userData.about}
-                onChange={(e) => setUserData({ ...userData, about: e.target.value })}
-                className="h-20 rounded-xl" placeholder="E.g. I'm a [role] with [X] years of experience in [main skills]. I specialize in [area] and have a track record of [achievement]. " />
-            </div>
-          </div>
-
-          <div className='mt-6'>
-            <h1>Tags</h1>
-            <div className='flex flex-wrap justify-center gap-4 '>
+          {/* Tags */}
+          <div className="mb-6">
+            <h2 className="mb-4 font-medium">Tags</h2>
+            <div className="flex flex-wrap gap-3">
               {availableSkills.map((skill) => (
                 <button
                   key={skill}
                   onClick={() => toggleSkill(skill)}
-                  className={`px-4 py-2 border rounded-2xl transition-all ${userData.skills.includes(skill) ? "bg-yellow-400" : "bg-gray-100 hover:bg-gray-200"
+                  className={`px-4 py-2 border rounded-2xl ${userData.skills.includes(skill)
+                    ? 'bg-yellow-400'
+                    : 'bg-gray-100 hover:bg-gray-200'
                     }`}
                 >
                   {skill}
@@ -127,49 +130,50 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className='mt-6'>
-            <h1>Availability</h1>
-            <div className='flex flex-wrap gap-4 mt-6 justify-center items-center '>
-              <button onClick={() => setUserData({ ...userData, availability: "Part-Time" })} className={` py-2 border px-4 rounded-2xl ${userData.availability === "Part-Time"
-                ? "bg-yellow-400 "
-                : ""
-                }`}>Part-Time</button>
-              <button onClick={() => setUserData({ ...userData, availability: "Full-Time" })} className={` py-2  border px-4 rounded-2xl ${userData.availability === "Full-Time"
-                ? "bg-yellow-400 "
-                : ""
-                }`}>Full-Time</button>
+          {/* Availability */}
+          <div className="mb-6">
+            <h2 className="mb-2 font-medium">Availability</h2>
+            <div className="flex gap-4 flex-wrap">
+              {['Part-Time', 'Full-Time'].map((time) => (
+                <button
+                  key={time}
+                  onClick={() => setUserData({ ...userData, availability: time })}
+                  className={`px-4 py-2 border rounded-2xl ${userData.availability === time ? 'bg-yellow-400' : 'bg-gray-100 hover:bg-gray-200'}`}
+                >
+                  {time}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className='mt-6'>
-            <h1>Your Vision</h1>
-            <div>
-              <div className='flex gap-6 mt-9 '>
-                <Textarea
-                  value={userData.vision}
-                  onChange={(e) => setUserData({ ...userData, vision: e.target.value })} className="rounded-xl h-20" placeholder=" Goals: What specific impact do you want to make?
-              
-              " />
-              </div>
-            </div>
+          {/* Vision */}
+          <div className="mb-6">
+            <h2 className="mb-2 font-medium">Your Vision</h2>
+            <Textarea
+              value={userData.vision}
+              onChange={(e) => setUserData({ ...userData, vision: e.target.value })}
+              className="rounded-xl h-20 w-full"
+              placeholder="Goals: What specific impact do you want to make?"
+            />
           </div>
 
-          <div className='mt-6 flex justify-end'>
+          {/* Save Button */}
+          <div className="flex justify-end">
             <button
               onClick={handleChanges}
               disabled={!isDataChanged}
-              className={`p-2 rounded-xl ${isDataChanged
-                ? "bg-yellow-400 hover:bg-yellow-300"
-                : "bg-yellow-400 cursor-not-allowed"
+              className={`px-6 py-2 rounded-xl font-semibold text-white ${isDataChanged
+                ? 'bg-yellow-500 hover:bg-yellow-400'
+                : 'bg-yellow-300 cursor-not-allowed'
                 }`}
             >
-              Save changes
+              Save Changes
             </button>
           </div>
         </div>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default Profile
+export default Profile;
