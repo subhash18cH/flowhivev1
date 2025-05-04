@@ -70,7 +70,7 @@ const SignIn = () => {
             Welcome back
           </h2>
           <p className="mt-2 text-sm md:text-base text-red-500">
-            Free server is being used, it may take 2 minutes to restart. Please wait after clicking on Log In.
+          Welcome! Since we're using a free server, the first response might take a few seconds. Thank you for waiting!
           </p>
         </div>
 

@@ -73,15 +73,6 @@ const LandingPage = () => {
       skills: ["growth", "sales", "research"],
       availability: "Part-Time",
     },
-    {
-      userId: 1,
-      fullName: "Danial",
-      profession: "Developer",
-      about: "I'm a web developer with 15+ years of experience in building platforms. I specialize in automations and API integrations",
-      vision: "Building innovative, automation-driven solutions that simplify workflows, boost productivity, and create scalable growth",
-      skills: ["mobile", "backend", "api's"],
-      availability: "Full-Time",
-    },
   ]
 
   const matchedPairs = [
@@ -165,7 +156,7 @@ const LandingPage = () => {
           <InfiniteMovingCards
             items={profiles}
             direction="left"
-            speed="normal"
+            speed="fast"
           />
         </div>
 

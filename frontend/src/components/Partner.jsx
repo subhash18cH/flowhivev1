@@ -12,8 +12,10 @@ const Partner = () => {
   const [marketers, setMarketers] = useState([]);
   const controls = useAnimation();
   const [isDragging, setIsDragging] = useState(false);
+ 
 
   const getAllDevelopers = async () => {
+   
     try {
       const response = await api.get("/user/profile/developers");
       if (response.status === 200) {
@@ -22,9 +24,11 @@ const Partner = () => {
     } catch (error) {
       toast.error(error);
     }
+    
   };
 
   const getAllMarketers = async () => {
+   
     try {
       const response = await api.get("/user/profile/marketers");
       if (response.status === 200) {
@@ -33,6 +37,7 @@ const Partner = () => {
     } catch (error) {
       toast.error(error);
     }
+   
   };
 
   const handleClick = (category) => {
@@ -121,10 +126,6 @@ const Partner = () => {
               />
             </div>
           )}
-
-
-
-
         </div>
       </div>
     </>

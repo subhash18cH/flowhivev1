@@ -33,7 +33,7 @@ const SignUp = () => {
     try {
       setLoading(true);
       const response = await api.post("/auth/register", sendData);
-      
+
       if (response.status === 200) {
         reset();
         toast.success("Registration Successful");
@@ -55,7 +55,7 @@ const SignUp = () => {
             Sign Up
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-red-500">
-            Free server is being used, it will take 2 minutes to restart. Please wait after clicking on Sign Up.
+            Welcome! Since we're using a free server, the first response might take a few seconds. Thank you for waiting!
           </p>
         </div>
 

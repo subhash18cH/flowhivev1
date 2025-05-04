@@ -74,7 +74,7 @@ const UserProfile = () => {
                 setUserData({ ...userData, fullName: e.target.value })
               }
               className='border py-3 h-16 px-4 w-[50%] mt-7 rounded-full border-yellow-500 outline-yellow-500 border-1'
-              placeholder='aman rawat'
+              placeholder='John Doe'
             />
           </div>
         )}
